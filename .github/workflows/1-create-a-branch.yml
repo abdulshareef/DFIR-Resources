@@ -1,0 +1,49 @@
+name: Step 1, Create a branch
+
+# This step listens for the learner to create branch `my-first-branch`
+# This step sets STEP to 2
+# This step closes <details id=1> and opens <details id=2>
+
+# This will run every time we create a branch or tag
+# Reference https://docs.github.com/en/actions/learn-github-actions/events-that-trigger-workflows
+on:
+  workflow_dispatch:
+  create:
+
+# Reference https://docs.github.com/en/actions/security-guides/automatic-token-authentication
+permissions:
+  # Need `contents: read` to checkout the repository
+  # Need `contents: write` to update the step metadata
+  contents: write
+
+jobs:
+  on_create_a_branch:
+    name: On create a branch
+
+    # We will only run this action when:
+    # 1. This repository isn't the template repository
+    # 2. The event is a branch
+    # 3. The branch name is `my-first-branch`
+    # Reference https://docs.github.com/en/actions/learn-github-actions/contexts
+    # Reference https://docs.github.com/en/actions/learn-github-actions/expressions
+    if: ${{ !github.event.repository.is_template && github.ref_type == 'branch' && github.ref_name == 'my-first-branch' }}
+
+    # We'll run Ubuntu for performance instead of Mac or Windows
+    runs-on: ubuntu-latest
+
+    steps:
+      # We'll need to check out the repository so that we can edit the README
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Let's get all the branches
+
+      # Update README to close <details id=1> and open <details id=2>
+      # and set STEP to '2'
+      - name: Update to step 2
+        uses: skills/action-update-step@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          from_step: 1
+          to_step: 2
+          branch_name: my-first-branch

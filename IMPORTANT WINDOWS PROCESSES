@@ -1,0 +1,84 @@
+DFIR - IMPORTANT WINDOWS PROCESSES
+
+WINLOGON.EXE
+WINLOGON.EXE is in responsible of user logon and logoff operations. LogonUI.exe sends
+username and password information to lsass.exe, and lsass.exe verifies and authenticates
+users by connecting to Active Directory and validating credentials using ntds.dit or Security
+Account Manager aka SAM. Userinit.exe is installed under Software\Microsoft\Windows
+NT\CurrntVersion\Winlogon and authentication process is started. WINLOGON.exe path is
+%SystemRoot%\System32\winlogon.exe.
+
+SMSS.EXE
+The task of the SMSS.exe process is to create new sessions. It first creates Session 0 and then
+starts the operating system in Session 1. Session zero initiates the csrss.exe and wininit.exe
+processes. Session 1 initiates and launches csrss.exe and winlogon.exe. Session 0 processes
+are those of the operating system, whereas session 1 processes are those of the user. In a
+process tree, there can only be one instance of SMSS.exe. SMSS.exe is responsible for the
+creation and management of child processes. SMSS.exe valid path is
+‘%SystemRoot%\System32\smss.exe’. SMSS.exe is created by the system.
+
+CSRSS.EXE
+Client Server Run Sub System exe is in responsible for managing processes and threads that
+communicate with Windows APIs. In addition, CSRSS.exe is in charge of mapping physical
+drives, creating temporary files, and closing and terminating processes. Its path is:
+%SystemRoot%System32\csrss.exe.. It is created during os boot. There must be only two
+instances in process tree.
+
+WININIT.EXE
+Windows Initialisation Process exe OR WININIT.exe is responsible for starting and triggering
+of services.exe, lsass.exe, lsm.exe. Its path is %SystemRoot%\System32\wininit.exe. It’s
+during created boot time. SID number is “NT AUTHORITY\SYSTEM(S-1–5–18). There must be
+only one instance in process tree. If you see second same named process, it is suspicious
+process.
+
+LSM.EXE
+Local Session Manager exe / LSM.exe cooperates with SMSS.exe and it is responsible for
+creation, termination and change of sessions. In windows 7, it is called as lsm.dll. Its path is
+%SystemRoot%System32\lsm.exe. Its parent process is WININIT.exe.
+
+SERVICES.EXE
+SERVICES.exe is responsible for initiating of services, starting, stopping and suspending
+services activities. Service Control Manager task is loading services and drivers to the
+memory. It’s the parent process for svchost.exe, dllhost.exe, taskhost.exe and spoolsv.exe. Its
+registry path is HKLM\SYSTEM\CurrentControlSet\Services. It’s path
+“%SystemRoot%System32\services.exe”. SERVICES.exe has just only one instance in a
+process-tree.
+
+LSASS.EXE
+Local Security Authority Sub System exe aka LSASS.exe is responsible for generating security
+tokens, applying security policies and user authentication. lsass.exe creates tokens for SAM,
+AD and netlogon. It benefits packets from HKLM\System\CurrentControlSet\Control\Lsa for
+authenticating users. It sends security logs to event log. Its parent process is wininit.exe. Its
+path is %SystemRoot%\System32\lsass.exe. SID number is NT AUTHORITY\SYSTEM(S-1–5–
+18). Malware can trick users for hiding process with misspelling like 1sass.exe. There must be
+only one instance of lsass.exe in process tree of Windows.
+
+SVCHOST.EXE
+Svchost.exe is a generic host process name for services that run from dynamic-link libraries.
+Because of DDL files are non-executable files, they run with svchost for triggering the services
+of operating system. SVCHOST.exe is responsible for usage and management of multi dll
+services for optimisation of system sources. All services have the registry values which include
+serviceDLL with this registry values svchost knows which dll files will be used. Svchost has -k
+parameter to specify the service name. Its path is %SystemRoot%\System32\svchost.exe -k
+(service group; i.e. netsvcs). Its registry is Software\Microsoft\Windows
+NT\CurrentVersion\Svchost. Every svchost process occurs with executing unique services. Its
+parent process is wininit.exe. SID numbers are NT AUTHORITY\SYSTEM(S1–5–18), LOCAL
+SERVICE (S-1–5–19) or NETWORK SERVICE (S-1–5–20).
+
+TASKHOST.EXE
+TASKHOST.exe is generic host exe is used for running dll services like svchost. During
+initialisations of operating system, task-host control the registry key services part and
+provides running and loading process of DLL based services. Its path
+%SystemRoot%\System32\taskhost.exe. Its parent process is services.exe. The process
+checks the Windows Registry on start-up to discover dll-based services that need to be loaded
+in a nut shell.
+
+EXPLORER.EXE
+Explorer exe is responsible for all GUI Windows Explorer operation like browsing files and
+directories, file accessing. Only one instance of explorer.exe is spawned for per user. It’s path
+is %SystemRoot%\Explorer.exe. 
+
+
+Reference:https://docs.microsoft.com/en-us/windows/win32/secauthz/well-known-sids.
+Reference:https://alparslanakyildiz.medium.com/fundamental-windows-processes-
+6341696cf4f0

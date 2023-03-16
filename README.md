@@ -1,5 +1,15 @@
 # DFIR-Resources
 
+-------------------------------------------------
+WinPMEM - an open-source memory acquisition tool.
+-------------------------------------------------
+
+Download from https://github.com/Velocidex/WinPmem/releases
+
+Open CMD (run as administrator) and browse to the downloaded directory, and execute the following command as it is a command line tool.
+
+"winpmem_mini_x64_rc2.exe volatilemem.raw"
+
 -----------------------------------------------------------------------------------
 Important Windows PowerShell Commands in Forensic Investigation
 -----------------------------------------------------------------------------------
